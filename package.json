@@ -1,10 +1,13 @@
 {
+  "name": "teu-projeto",
+  "version": "1.0.0",
+  "main": "servidor/server.js",
+  "scripts": {
+    "start": "node servidor/server.js"
+  },
   "dependencies": {
     "express": "^5.1.0",
     "socket.io": "^4.8.1",
     "ws": "^8.18.2"
   }
-}
-"scripts": {
-  "start": "node servidor/server.js"
 }
