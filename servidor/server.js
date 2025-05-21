@@ -1,20 +1,19 @@
-const express = require("express"); // Aqui tava "exp", mas melhor usar o nome padrão
+const express = require("express");
 const http = require("http");
-const { Server } = require("socket.io"); // Aqui tu colocou "server", o correto é "Server" com S maiúsculo
-const path = require("path"); // Tu usou path lá embaixo, mas esqueceu de importar
+const { Server } = require("socket.io");
+const path = require("path");
 
-const app = express(); // Aqui também tava com nome trocado
-
+const app = express();
 const server = http.createServer(app);
-const io = new Server(server); // Corrigido o construtor aqui
+const io = new Server(server);
 
-// Serve a pasta "cliente"
-app.use(express.static(path.join(__dirname, '../cliente')));
+// Servir a pasta "cliente"
+app.use(express.static(path.join(__dirname, 'cliente')));
 
-io.on('connection', (socket) => {
-  console.log('🔌 Usuário conectado:', socket.id);
+io.on("connection", (socket) => {
+  console.log("🔌 Usuário conectado:", socket.id);
 
-   socket.on("set_username", (nome) => {
+  socket.on("set_username", (nome) => {
     socket.username = nome;
   });
 
@@ -24,11 +23,12 @@ io.on('connection', (socket) => {
     io.emit("mensagem", msgComNome);
   });
 
-  socket.on('disconnect', () => {
-    console.log('❌ Saiu:', socket.id);
+  socket.on("disconnect", () => {
+    console.log("❌ Saiu:", socket.id);
   });
 });
 
-server.listen(3000, () => {
-  console.log('🚀 Servidor rodando em http://localhost:3000');
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
