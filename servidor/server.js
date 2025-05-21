@@ -7,11 +7,15 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Servir a pasta "cliente"
-app.use(express.static(path.join(__dirname, 'cliente')));
+app.use(express.static(path.join(__dirname, '../cliente')));
 
-io.on("connection", (socket) => {
-  console.log("🔌 Usuário conectado:", socket.id);
+// Rota raiz manda o index.html da pasta cliente
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../cliente/index.html'));
+});
+
+io.on('connection', (socket) => {
+  console.log('🔌 Usuário conectado:', socket.id);
 
   socket.on("set_username", (nome) => {
     socket.username = nome;
@@ -23,8 +27,8 @@ io.on("connection", (socket) => {
     io.emit("mensagem", msgComNome);
   });
 
-  socket.on("disconnect", () => {
-    console.log("❌ Saiu:", socket.id);
+  socket.on('disconnect', () => {
+    console.log('❌ Saiu:', socket.id);
   });
 });
 
