@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat Socket.io</title>
+  </head>
+  <link rel="stylesheet" href="style.css">
+  <body>
+    <div class="tudo">
+    <div id="chat"><p>oi</p></div> 
+    <input id="msg" placeholder="Mensagem" />
+       <button onclick="enviar()">Enviar</button>
+       </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      
+let nome = "";
+
+while (nome.trim() === "") {
+  nome = prompt("Digite seu nome:");
+  if (nome.trim() === "") alert("BOTA UM NOME JEGUE");
+} 
+ socket.emit("set_username", nome); 
+
+
+
+      function enviar() {
+        const msg = document.getElementById("msg").value;
+        socket.emit("mensagem", msg);
+        document.getElementById("msg").value = "";
+      }
+
+      socket.on("mensagem", (msg) => {
+        document.getElementById("chat").innerHTML += `<p>${msg}</p>`;
+      });
+    </script>
+  </body>
+</html>
